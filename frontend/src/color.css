@@ -1,0 +1,17 @@
+:root {
+	--bg: #242424;
+	--bg-2: #afe983;
+	--bg-3: #35e3cf;
+	--bg-4: rgba(255, 255, 255, 0.15);
+	--bg-5: #fff3cd;
+	--link: #646cff;
+	--link-hover: #535bf2;
+	--btn-bg: #1a1a1a;
+	--color-1: #fff3cd;
+	--color-2: #fde2e2;
+	--color-3: #888;
+	--color-4: #eee;
+	--color-5: #afafaf;
+	--white: #fff;
+	--red-1: rgb(190, 60, 60);
+}
