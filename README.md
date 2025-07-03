@@ -1,4 +1,4 @@
-![Task manager preview](https://github.com/phoenixfan86/task-manager/task-manager-preview.png)
+![Task manager preview](./task-manager-preview.png)
 
 # Task Manager App – Тестове завдання
 
