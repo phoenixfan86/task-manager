@@ -21,11 +21,28 @@ export const getTask = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const createTask = async (req: Request, res: Response): Promise<void> => {
-  const { title } = req.body;
-  const newTask = new Task({ title });
-  const savedTask = await newTask.save();
-  res.status(201).json(savedTask);
+  try {
+    const { title, description, dueDate, isPriority } = req.body;
+
+    if (!title || title.trim() === '') {
+      res.status(400).json({ message: 'Title is required' });
+      return;
+    }
+
+    const newTask = new Task({
+      title,
+      description,
+      dueDate,
+      isPriority,
+    });
+
+    const savedTask = await newTask.save();
+    res.status(201).json(savedTask);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
 };
+
 
 export const updateTask = async (req: Request, res: Response): Promise<void> => {
   try {
