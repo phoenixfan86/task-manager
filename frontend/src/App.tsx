@@ -89,10 +89,12 @@ function App() {
           <div className="filter">
             <div className="filter-wrapper">
               <span>Показати:</span>
-              <button onClick={() => setFilter('all')} className={`filter-btn${filter === 'all' ? 'active' : ''}`}>Усі</button>
-              <button onClick={() => setFilter('active')} className={`filter-btn${filter === 'active' ? 'active' : ''}`}>Активні</button>
-              <button onClick={() => setFilter('important')} className={`filter-btn${filter === 'important' ? 'active' : ''}`}>Важливі</button>
-              <button onClick={() => setFilter('completed')} className={`filter-btn${filter === 'completed' ? 'active' : ''}`}>Завершені</button>
+              <div className="btn-wrapper">
+                <button onClick={() => setFilter('all')} className={`filter-btn${filter === 'all' ? 'active' : ''}`}>Усі</button>
+                <button onClick={() => setFilter('active')} className={`filter-btn${filter === 'active' ? 'active' : ''}`}>Активні</button>
+                <button onClick={() => setFilter('important')} className={`filter-btn${filter === 'important' ? 'active' : ''}`}>Важливі</button>
+                <button onClick={() => setFilter('completed')} className={`filter-btn${filter === 'completed' ? 'active' : ''}`}>Завершені</button>
+              </div>
             </div>
           </div>
           <div className="task-wrapper">
@@ -104,29 +106,38 @@ function App() {
                 const classes = ['task-item'];
                 if (dueSoon) classes.push('due-soon');
                 if (isImportant) classes.push('important');
+                const titleClass = ['task-title'];
+                if (dueSoon) titleClass.push('soon');
+                if (isImportant) titleClass.push('titleI');
 
                 return (
                   <li
                     key={task._id}
                     className={classes.join(' ')}
                   >
-                    <div style={{ textDecoration: task.completed ? 'line-through' : 'none', color: task.completed ? '#888' : '', fontWeight: isImportant ? 'bold' : 'normal' }} className="task-title">
+                    <div style={{
+                      textDecoration: task.completed ? 'line-through' : 'none',
+                      textDecorationColor: task.completed ? 'black' : 'none',
+                      color: task.completed ? '#fff' : '', fontWeight: isImportant ? 'bold' : 'normal',
+                    }} className={titleClass.join(' ')}>
                       {task.title}
                     </div>
-                    <div style={{ textDecoration: task.completed ? 'line-through' : 'none', color: task.completed ? '#888' : '', fontWeight: isImportant ? 'bold' : 'normal' }} className="task-icons">
-                      {isImportant && <span className="task-icon">
-                        <i className="fa-solid fa-fire"></i>
-                      </span>}
-                      {showDueDate && <span className="task-icon">
-                        <span>до: </span>
-                        <i className="fa-solid fa-clock"></i> {showDueDate}</span>}
-                    </div>
-                    <div className="task-item-btn">
-                      <button onClick={() => toggleComplete(task)}>
-                        {task.completed ? <i className="fa-solid fa-rotate-left"></i> : <i className="fa-solid fa-square-check"></i>}
-                      </button>
-                      <button onClick={() => setEditingTask(task)}><i className="fa-solid fa-pen-to-square"></i></button>
-                      <button onClick={() => handleDelete(task._id)}><i className="fa-solid fa-rectangle-xmark"></i></button>
+                    <div className="task-body">
+                      <div style={{ textDecoration: task.completed ? 'line-through' : 'none', color: task.completed ? '#888' : '', fontWeight: isImportant ? 'bold' : 'normal' }} className="task-icons">
+                        {isImportant && <span className="task-icon">
+                          <i className="fa-solid fa-fire"></i>
+                        </span>}
+                        {showDueDate && <span className="task-icon">
+                          <span>до: </span>
+                          <i className="fa-solid fa-clock"></i> {showDueDate}</span>}
+                      </div>
+                      <div className="task-item-btn">
+                        <button onClick={() => toggleComplete(task)}>
+                          {task.completed ? <i className="fa-solid fa-rotate-left"></i> : <i className="fa-solid fa-square-check"></i>}
+                        </button>
+                        <button onClick={() => setEditingTask(task)}><i className="fa-solid fa-pen-to-square"></i></button>
+                        <button onClick={() => handleDelete(task._id)}><i className="fa-solid fa-rectangle-xmark"></i></button>
+                      </div>
                     </div>
                   </li>
                 );
