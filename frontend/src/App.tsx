@@ -16,14 +16,24 @@ function App() {
   const totalCount = tasks.length;
   const activeCount = tasks.filter((task) => !task.completed).length;
 
-  const fetchTasks = async () => {
-    const res = await API.get('/tasks');
-    setTasks(res.data);
+  const fetchTasks = async (retry = 0) => {
+    try {
+      const res = await API.get('/tasks');
+      setTasks(res.data);
+    } catch (error) {
+      if (retry < 3) {
+        console.warn(`Повторна спроба ${retry + 1} через 2с...`);
+        setTimeout(() => fetchTasks(retry + 1), 2000);
+      } else {
+        console.error('Не вдалося завантажити завдання:', error);
+      }
+    }
   };
 
   useEffect(() => {
     fetchTasks();
   }, []);
+
 
   const handleDelete = async (id: string) => {
     await API.delete(`/tasks/${id}`);
