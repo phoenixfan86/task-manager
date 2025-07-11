@@ -7,6 +7,7 @@
 	--link: #646cff;
 	--link-hover: #535bf2;
 	--btn-bg: #1a1a1a;
+	--task-btn: #a3a7f7;
 	--color-1: #fff3cd;
 	--color-2: #fde2e2;
 	--color-3: #888;
@@ -14,4 +15,5 @@
 	--color-5: #afafaf;
 	--white: #fff;
 	--red-1: rgb(190, 60, 60);
+	--red-2: rgb(190, 100, 100);
 }

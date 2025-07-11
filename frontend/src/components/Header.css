@@ -59,7 +59,10 @@ header {
 
 @media (max-width: 425px) {
 	header {
+		position: sticky;
+		top: 0;
 		padding: 15px 1px;
+		z-index: 100;
 	}
 
 	.logo-wrapper i {

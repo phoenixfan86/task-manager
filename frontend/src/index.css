@@ -113,11 +113,12 @@ button:hover {
 }
 
 .task-item {
+	height: 70px;
 	display: flex;
 	gap: 20px;
 	align-items: center;
 	justify-content: start;
-	padding: 8px 30px;
+	padding: 8px 10px 8px 20px;
 	margin-bottom: 8px;
 	border-radius: 6px;
 	border-left: 4px solid var(--link);
@@ -127,26 +128,31 @@ button:hover {
 }
 
 .task-title {
-	flex-grow: 1;
-	text-decoration: line-through;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	text-align: left;
 	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 .task-body {
 	position: relative;
 	width: 100%;
+	height: 100%;
 	display: flex;
-	align-items: center;
-	justify-content: end;
+	align-items: start;
+	padding: 5px 130px 5px 20px;
+}
+
+.description {
+	font-size: 14px;
+	text-align: left;
 }
 
 .task-icons {
 	display: flex;
-	gap: 20px;
-	flex-shrink: 0;
-	margin-right: 50px;
+	gap: 10px;
 }
 
 .task-item.due-soon {
@@ -165,16 +171,22 @@ button:hover {
 }
 
 .task-item-btn {
+	position: absolute;
+	right: 0;
 	display: flex;
-	gap: 5px;
-	flex-shrink: 0;
-	padding: 3px 5px;
-	border-radius: 8px;
-	background: var(--color-5);
+	gap: 4px;
+}
+
+.task-item-btn button {
+	background-color: var(--task-btn);
+}
+
+.task-item-btn button i {
+	font-size: 22px;
 }
 
 .task-item-btn button:hover i {
-	color: var(--link);
+	color: var(--white);
 }
 
 .task-item-btn button:last-child:hover i {
@@ -206,6 +218,8 @@ button:hover {
 	}
 
 	.task-item {
+		gap: 0;
+		height: 110px;
 		flex-direction: column;
 		align-items: start;
 		padding: 0px;
@@ -213,7 +227,8 @@ button:hover {
 
 	.task-title {
 		width: 100%;
-		padding: 5px 15px;
+		min-height: 30px;
+		padding: 5px 8px;
 		color: #fff;
 		background-color: var(--link);
 	}
@@ -222,12 +237,29 @@ button:hover {
 		background-color: var(--red-1);
 	}
 
+	.task-item.important .task-icon {
+		color: var(--color-1);
+	}
+
 	.task-title.soon {
 		background-color: #ffdd6d;
 	}
 
 	.task-body {
-		padding: 10px;
+		gap: 2px;
+		font-size: 12px;
+		padding: 3px 6px;
 		justify-content: space-between;
+	}
+	.description {
+		width: 100%;
+		height: 100%;
+		border-right: 1px solid var(--color-3);
+	}
+
+	.task-item-btn {
+		position: static;
+		top: 0;
+		padding: 12px 2px 12px 5px;
 	}
 }

@@ -123,6 +123,7 @@ function App() {
                 return (
                   <li
                     key={task._id}
+                    style={{ height: task.completed ? '25px' : '', }}
                     className={classes.join(' ')}
                   >
                     <div style={{
@@ -131,8 +132,6 @@ function App() {
                       color: task.completed ? '#fff' : '', fontWeight: isImportant ? 'bold' : 'normal',
                     }} className={titleClass.join(' ')}>
                       {task.title}
-                    </div>
-                    <div className="task-body">
                       <div style={{ textDecoration: task.completed ? 'line-through' : 'none', color: task.completed ? '#888' : '', fontWeight: isImportant ? 'bold' : 'normal' }} className="task-icons">
                         {isImportant && <span className="task-icon">
                           <i className="fa-solid fa-fire"></i>
@@ -140,6 +139,11 @@ function App() {
                         {showDueDate && <span className="task-icon">
                           <span>до: </span>
                           <i className="fa-solid fa-clock"></i> {showDueDate}</span>}
+                      </div>
+                    </div>
+                    <div className="task-body">
+                      <div className="description">
+                        {task.description}
                       </div>
                       <div className="task-item-btn">
                         <button onClick={() => toggleComplete(task)}>
