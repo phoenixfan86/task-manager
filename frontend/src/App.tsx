@@ -123,7 +123,7 @@ function App() {
                 return (
                   <li
                     key={task._id}
-                    style={{ height: task.completed ? '25px' : '', }}
+                    style={{ height: task.completed ? '30px' : '', }}
                     className={classes.join(' ')}
                   >
                     <div style={{
