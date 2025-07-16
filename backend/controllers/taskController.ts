@@ -22,7 +22,15 @@ export const getTask = async (req: Request, res: Response): Promise<void> => {
 
 export const createTask = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, description, quantity, dueDate, isPriority } = req.body;
+    const { 
+      title, 
+      description, 
+      quantity, 
+      dueDate, 
+      isPriority, 
+      author,
+      assignedTo, 
+    } = req.body;
 
     if (!title || title.trim() === '') {
       res.status(400).json({ message: 'Title is required' });
@@ -37,6 +45,8 @@ export const createTask = async (req: Request, res: Response): Promise<void> => 
       quantity,
       dueDate,
       isPriority,
+      author,
+      assignedTo,
     });
 
     const savedTask = await newTask.save();

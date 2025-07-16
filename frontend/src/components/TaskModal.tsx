@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './TaskModal.css';
 import type { Props } from '../types/TaskModalProps';
+import type { User } from '../types/UserProps';
+import API from '../services/api';
 
 const TaskModal: React.FC<Props> = ({
   isOpen,
@@ -13,6 +15,23 @@ const TaskModal: React.FC<Props> = ({
   const [quantity, setQuantity] = useState<string>('');
   const [dueDate, setDueDate] = useState('');
   const [isPriority, setIsPriority] = useState(false);
+  const [selectedAssigneeId, setSelectedAssigneeId] = useState<string | null>(null);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await API.get('/users'); // або інший твій ендпоінт
+        setAllUsers(res.data.filter(u => u._id !== user._id)); // виключаємо себе
+      } catch (err) {
+        console.error('Помилка при завантаженні користувачів:', err);
+      }
+    };
+
+    fetchUsers();
+  }, [user._id]);
+
+
 
   useEffect(() => {
     if (initialData) {
@@ -37,7 +56,9 @@ const TaskModal: React.FC<Props> = ({
       description,
       quantity: quantity ? parseInt(quantity) : undefined,
       dueDate,
-      isPriority
+      isPriority,
+      author: user._id,
+      assignedTo: selectedAssigneeId || null
     });
     onClose();
   };
@@ -88,6 +109,24 @@ const TaskModal: React.FC<Props> = ({
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
+        {allUsers.length > 0 && (
+          <div className="input-group">
+            <label htmlFor="assignedTo">Призначити користувача</label>
+            <select
+              id="assignedTo"
+              value={selectedAssigneeId || ''}
+              onChange={(e) => setSelectedAssigneeId(e.target.value || null)}
+            >
+              <option value="">Не призначено</option>
+              {allUsers.map(u => (
+                <option key={u._id} value={u._id}>
+                  {u.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <div className="input-group">
           <label htmlFor="">Кінцева дата (не обовязково)</label>
           <input

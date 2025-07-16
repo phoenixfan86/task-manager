@@ -109,6 +109,7 @@ function App() {
             setEditingTask(null);
             setModalOpen(false);
           }}
+          user={user}
         />
         <main>
           <div className="filter">
@@ -162,9 +163,6 @@ function App() {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         padding: '10px',
-                        backgroundColor: isImportant ? 'var(--red-1)' : 'var(--link)',
-                        color: '#fff',
-                        backgroundColor: dueSoon ? '#ffdd6d' : '',
                         fontWeight: isImportant ? 'bold' : 'normal',
                       }}
                     >
