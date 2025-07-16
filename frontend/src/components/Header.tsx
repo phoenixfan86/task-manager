@@ -74,11 +74,6 @@ const Header: React.FC<HeaderProps> = ({ onOpenModal, totalCount, activeCount })
         onClick={onOpenModal}
         className="new-task-btn"
       >Нове завдання</button>
-      <div className="user-login">
-        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <button onClick={handleLogin}>Увійти</button>
-      </div>
       <div className="count-wrapper">
         <h5 className="count-item">Усього завдань:<span>{totalCount}</span> </h5>
         <h5 className="count-item">Невиконано:<span>{activeCount}</span></h5>
