@@ -164,6 +164,7 @@ function App() {
                         padding: '10px',
                         backgroundColor: isImportant ? 'var(--red-1)' : 'var(--link)',
                         color: '#fff',
+                        backgroundColor: dueSoon ? '#ffdd6d' : '',
                         fontWeight: isImportant ? 'bold' : 'normal',
                       }}
                     >
