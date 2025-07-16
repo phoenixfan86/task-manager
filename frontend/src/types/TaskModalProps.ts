@@ -1,6 +1,7 @@
 export interface TaskInput {
   title: string;
   description?: string;
+  quantity?:number;
   dueDate?: string;
   isPriority: boolean;
 }

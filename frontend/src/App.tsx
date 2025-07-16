@@ -83,7 +83,14 @@ function App() {
             setModalOpen(false);
             setEditingTask(null);
           }}
-          initialData={editingTask || undefined}
+          initialData={
+            editingTask
+              ? {
+                ...editingTask,
+                quantity: editingTask.quantity ? Number(editingTask.quantity) : undefined,
+              }
+              : undefined
+          }
           onSubmit={async (taskData) => {
             if (editingTask) {
               await API.put(`/tasks/${editingTask._id}`, taskData);
@@ -143,6 +150,7 @@ function App() {
                     </div>
                     <div className="task-body">
                       <div className="description">
+                        {task.quantity && <span><strong>Кількість: {task.quantity}</strong><br /></span>}
                         {task.description}
                       </div>
                       <div className="task-item-btn">

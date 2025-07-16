@@ -10,6 +10,7 @@ const TaskModal: React.FC<Props> = ({
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [quantity, setQuantity] = useState<string>('');
   const [dueDate, setDueDate] = useState('');
   const [isPriority, setIsPriority] = useState(false);
 
@@ -17,11 +18,13 @@ const TaskModal: React.FC<Props> = ({
     if (initialData) {
       setTitle(initialData.title || '');
       setDescription(initialData.description || '');
+      setQuantity(initialData.quantity?.toString() || '');
       setDueDate(initialData.dueDate?.slice(0, 10) || '');
       setIsPriority(initialData.isPriority || false);
     } else {
       setTitle('');
       setDescription('');
+      setQuantity('');
       setDueDate('');
       setIsPriority(false);
     }
@@ -29,7 +32,13 @@ const TaskModal: React.FC<Props> = ({
 
   const handleSubmit = () => {
     if (!title.trim()) return;
-    onSubmit({ title, description, dueDate, isPriority });
+    onSubmit({
+      title,
+      description,
+      quantity: quantity ? parseInt(quantity) : undefined,
+      dueDate,
+      isPriority
+    });
     onClose();
   };
 
@@ -59,11 +68,15 @@ const TaskModal: React.FC<Props> = ({
           />
         </div>
         <div className="input-group">
-          <label htmlFor="">Кінцева дата (не обовязково)</label>
+          <label htmlFor="">
+            Кількість
+          </label>
           <input
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
+            name="quantity"
+            type="number"
+            placeholder="Введіть кількість"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
           />
         </div>
         <div className="input-group">
@@ -73,11 +86,16 @@ const TaskModal: React.FC<Props> = ({
             placeholder="Напишіть опис завдання"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            minLength={10}
-            required
           />
         </div>
-
+        <div className="input-group">
+          <label htmlFor="">Кінцева дата (не обовязково)</label>
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+        </div>
         <div className="priority-group">
           <label>
             Пріорітетне завдання
