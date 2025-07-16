@@ -7,14 +7,14 @@ import type { HeaderProps } from '../types/HeaderProps';
 
 
 const Header: React.FC<HeaderProps> = ({ onOpenModal, totalCount, activeCount }) => {
-  const [name, setName] = useState('');
+  {/* const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
   const handleLogin = async () => {
     const res = await axios.post('https://your-backend-url/api/users/loginOrCreate', { name, email });
     const userId = res.data._id;
     localStorage.setItem('userId', userId);
-  };
+  };*/}
 
   return (
     <header>
