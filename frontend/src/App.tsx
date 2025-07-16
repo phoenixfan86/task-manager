@@ -12,6 +12,14 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [activeButtonsTaskId, setActiveButtonsTaskId] = useState<string | null>(null);
+
+
+  const toggleExpand = (id: string) => {
+    setExpandedId(prev => (prev === id ? null : id));
+  };
+
 
   const totalCount = tasks.length;
   const activeCount = tasks.filter((task) => !task.completed).length;
@@ -130,38 +138,68 @@ function App() {
                 return (
                   <li
                     key={task._id}
-                    style={{ height: task.completed ? '30px' : '', }}
+                    onClick={() => toggleExpand(task._id)}
                     className={classes.join(' ')}
+                    style={{
+                      height: expandedId === task._id ? '120px' : '50px',
+                      overflow: 'hidden',
+                      transition: 'height 0.3s ease',
+                    }}
                   >
-                    <div style={{
-                      textDecoration: task.completed ? 'line-through' : 'none',
-                      textDecorationColor: task.completed ? 'black' : 'none',
-                      color: task.completed ? '#fff' : '', fontWeight: isImportant ? 'bold' : 'normal',
-                    }} className={titleClass.join(' ')}>
-                      {task.title}
-                      <div style={{ textDecoration: task.completed ? 'line-through' : 'none', color: task.completed ? '#888' : '', fontWeight: isImportant ? 'bold' : 'normal' }} className="task-icons">
-                        {isImportant && <span className="task-icon">
-                          <i className="fa-solid fa-fire"></i>
-                        </span>}
-                        {showDueDate && <span className="task-icon">
-                          <span>до: </span>
-                          <i className="fa-solid fa-clock"></i> {showDueDate}</span>}
+                    <div
+                      className={titleClass.join(' ')}
+                      onClick={() => {
+                        if (activeButtonsTaskId === task._id) {
+                          setActiveButtonsTaskId(null);
+                        } else {
+                          setActiveButtonsTaskId(task._id);
+                        }
+                      }}
+                      style={{
+                        cursor: 'pointer',
+                        height: '50px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '10px',
+                        backgroundColor: isImportant ? 'var(--red-1)' : 'var(--link)',
+                        color: '#fff',
+                        fontWeight: isImportant ? 'bold' : 'normal',
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
+                        <div style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                          {task.title}
+                          {task.quantity && (
+                            <span style={{ marginLeft: '6px' }}>(x{task.quantity})</span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <div className="task-body">
-                      <div className="description">
-                        {task.quantity && <span><strong>Кількість: {task.quantity}</strong><br /></span>}
-                        {task.description}
-                      </div>
-                      <div className="task-item-btn">
-                        <button onClick={() => toggleComplete(task)}>
+
+                      <div className={`task-item-btn ${activeButtonsTaskId === task._id ? 'visible' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}>
+                        <button onClick={(e) => { e.stopPropagation(); toggleComplete(task); }}>
                           {task.completed ? <i className="fa-solid fa-rotate-left"></i> : <i className="fa-solid fa-square-check"></i>}
                         </button>
-                        <button onClick={() => setEditingTask(task)}><i className="fa-solid fa-pen-to-square"></i></button>
-                        <button onClick={() => handleDelete(task._id)}><i className="fa-solid fa-rectangle-xmark"></i></button>
+                        <button onClick={(e) => { e.stopPropagation(); setEditingTask(task); }}>
+                          <i className="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button onClick={(e) => { e.stopPropagation(); handleDelete(task._id); }}>
+                          <i className="fa-solid fa-rectangle-xmark"></i>
+                        </button>
                       </div>
                     </div>
+
+                    {expandedId === task._id && (
+                      <div className="task-body" style={{ padding: '8px', fontSize: '13px' }}>
+                        {task.description && <p>{task.description}</p>}
+                        {showDueDate && <p>До: {showDueDate}</p>}
+                      </div>
+                    )}
                   </li>
+
                 );
               })}
             </ul>
@@ -172,4 +210,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

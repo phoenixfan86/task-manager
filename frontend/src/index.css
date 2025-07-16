@@ -175,6 +175,7 @@ button:hover {
 	right: 0;
 	display: flex;
 	gap: 4px;
+	transition: transform 0.3s ease;
 }
 
 .task-item-btn button {
@@ -219,7 +220,6 @@ button:hover {
 
 	.task-item {
 		gap: 0;
-		height: 110px;
 		flex-direction: column;
 		align-items: start;
 		padding: 0px;
@@ -227,7 +227,7 @@ button:hover {
 
 	.task-title {
 		width: 100%;
-		min-height: 30px;
+		min-height: 50px;
 		padding: 5px 8px;
 		color: #fff;
 		background-color: var(--link);
@@ -260,6 +260,22 @@ button:hover {
 	.task-item-btn {
 		position: static;
 		top: 0;
-		padding: 12px 2px 12px 5px;
+		gap: 3px;
+		transform: translateX(100%);
+		opacity: 0;
+		pointer-events: none;
+		padding: 0;
+	}
+
+	.task-item-btn.visible {
+		transform: translateX(0);
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	.task-item-btn button {
+		height: 100%;
+		border-radius: 3px;
+		padding: 6px;
 	}
 }
