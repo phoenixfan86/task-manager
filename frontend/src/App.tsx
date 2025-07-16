@@ -4,6 +4,7 @@ import Header from './components/Header';
 import TaskModal from './components/TaskModal';
 import API from './services/api';
 import type { Task } from './types/TaskProps';
+import type { User } from './types/UserProps';
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
   const [filter, setFilter] = useState<Filter>('all');
   const [modalOpen, setModalOpen] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [user, setUser] = useState<User | null>(null);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [activeButtonsTaskId, setActiveButtonsTaskId] = useState<string | null>(null);
@@ -76,6 +78,14 @@ function App() {
     return diffDays <= 2 && diffDays >= 0;
   };
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+
   return (
     <>
       <Header
@@ -84,33 +94,34 @@ function App() {
         activeCount={activeCount}
       />
       <div className="wrapper">
-
-        <TaskModal
-          isOpen={modalOpen || editingTask !== null}
-          onClose={() => {
-            setModalOpen(false);
-            setEditingTask(null);
-          }}
-          initialData={
-            editingTask
-              ? {
-                ...editingTask,
-                quantity: editingTask.quantity ? Number(editingTask.quantity) : undefined,
-              }
-              : undefined
-          }
-          onSubmit={async (taskData) => {
-            if (editingTask) {
-              await API.put(`/tasks/${editingTask._id}`, taskData);
-            } else {
-              await API.post('/tasks', taskData);
+        {user && (
+          <TaskModal
+            isOpen={modalOpen || editingTask !== null}
+            onClose={() => {
+              setModalOpen(false);
+              setEditingTask(null);
+            }}
+            initialData={
+              editingTask
+                ? {
+                  ...editingTask,
+                  quantity: editingTask.quantity ? Number(editingTask.quantity) : undefined,
+                }
+                : undefined
             }
-            fetchTasks();
-            setEditingTask(null);
-            setModalOpen(false);
-          }}
-          user={user}
-        />
+            onSubmit={async (taskData) => {
+              if (editingTask) {
+                await API.put(`/tasks/${editingTask._id}`, taskData);
+              } else {
+                await API.post('/tasks', taskData);
+              }
+              fetchTasks();
+              setEditingTask(null);
+              setModalOpen(false);
+            }}
+            user={user}
+          />
+        )}
         <main>
           <div className="filter">
             <div className="filter-wrapper">

@@ -7,7 +7,7 @@ export interface TaskInput {
   dueDate?: string;
   isPriority: boolean;
   author?: string;
-  assignedTo?: string;
+  assignedTo?: string | null;
 }
 
 export interface Props {
