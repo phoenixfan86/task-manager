@@ -4,6 +4,7 @@ export interface Task {
   description?: string;
   quantity?:string;
   dueDate?: string;
+  createdAt:string;
   completed: boolean;
   isPriority: boolean;
 }

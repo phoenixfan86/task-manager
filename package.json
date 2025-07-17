@@ -1,13 +1,13 @@
 {
-  "name": "task-manager",
-  "version": "1.0.0",
-  "description": "",
+  "name": "buy-manager",
+  "version": "0.0.3",
+  "description": "Family shopping list",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Phoenixfan",
   "license": "ISC",
   "type": "commonjs"
 }

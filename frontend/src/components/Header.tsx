@@ -7,7 +7,7 @@ import API from '../services/api';
 
 
 
-const Header: React.FC<HeaderProps> = ({ onOpenModal, totalCount, activeCount }) => {
+const Header: React.FC<HeaderProps> = ({ onOpenModal, totalCount, activeCount, }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [user, setUser] = useState<User | null>(null);
@@ -57,26 +57,28 @@ const Header: React.FC<HeaderProps> = ({ onOpenModal, totalCount, activeCount })
   }
 
 
-
-
   return (
     <header>
       <div className="logo-wrapper">
         <i className="fa-solid fa-clipboard-list fa-xl"></i>
+        <span className="hello-user">
+          <span>Привіт </span>
+          <strong>{user.name}</strong>
+        </span>
         <a href="#">
           <div className="logo">
-            <h1 >Task </h1>
-            <span>Manager</span>
+            <span>what to</span>
+            <h1 >Buy</h1>
           </div>
         </a>
       </div>
       <button
         onClick={onOpenModal}
         className="new-task-btn"
-      >Нове завдання</button>
+      >Нова покупка</button>
       <div className="count-wrapper">
-        <h5 className="count-item">Усього завдань:<span>{totalCount}</span> </h5>
-        <h5 className="count-item">Невиконано:<span>{activeCount}</span></h5>
+        <h5 className="count-item">Усього покупок:<span>{totalCount}</span> </h5>
+        <h5 className="count-item">треба купити:<span>{activeCount}</span></h5>
       </div>
     </header>
   );

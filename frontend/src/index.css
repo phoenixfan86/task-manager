@@ -106,6 +106,14 @@ button:hover {
 	background-color: transparent;
 }
 
+.date-separator {
+	text-align: center;
+	font-weight: bold;
+	margin: 12px 0 4px;
+	color: #888;
+	font-size: 13px;
+}
+
 .tasks {
 	display: flex;
 	gap: 5px;

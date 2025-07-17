@@ -1,5 +1,6 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import TaskModal from './components/TaskModal';
 import API from './services/api';
@@ -44,7 +45,6 @@ function App() {
     fetchTasks();
   }, []);
 
-
   const handleDelete = async (id: string) => {
     await API.delete(`/tasks/${id}`);
     fetchTasks();
@@ -84,6 +84,34 @@ function App() {
       setUser(JSON.parse(storedUser));
     }
   }, []);
+
+  const groupTasksByDate = (tasks: Task[]) => {
+    const groups: Record<string, Task[]> = {};
+
+    tasks.forEach((task) => {
+      const createdDate = new Date(task.createdAt).toLocaleDateString('uk-UA', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+
+      if (!groups[createdDate]) {
+        groups[createdDate] = [];
+      }
+
+      groups[createdDate].push(task);
+    });
+
+    return groups;
+  };
+
+  const lastTaskRef = useRef<HTMLLIElement | null>(null);
+
+  useEffect(() => {
+    if (lastTaskRef.current) {
+      lastTaskRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [filteredTasks]);
 
 
   return (
@@ -136,83 +164,105 @@ function App() {
           </div>
           <div className="task-wrapper">
             <ul className="tasks">
-              {filteredTasks.map((task) => {
-                const showDueDate = formatDate(task.dueDate);
-                const dueSoon = isDueSoon(task.dueDate);
-                const isImportant = (task.isPriority);
-                const classes = ['task-item'];
-                if (dueSoon) classes.push('due-soon');
-                if (isImportant) classes.push('important');
-                const titleClass = ['task-title'];
-                if (dueSoon) titleClass.push('soon');
-                if (isImportant) titleClass.push('titleI');
+              {Object.entries(groupTasksByDate(filteredTasks))
+                .sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime())
+                .map(([date, tasksForDate], index, array) => {
+                  const isLastGroup = index === array.length - 1;
 
-                return (
-                  <li
-                    key={task._id}
-                    onClick={() => toggleExpand(task._id)}
-                    className={classes.join(' ')}
-                    style={{
-                      height: expandedId === task._id ? '120px' : '50px',
-                      overflow: 'hidden',
-                      transition: 'height 0.3s ease',
-                    }}
-                  >
-                    <div
-                      className={titleClass.join(' ')}
-                      onClick={() => {
-                        if (activeButtonsTaskId === task._id) {
-                          setActiveButtonsTaskId(null);
-                        } else {
-                          setActiveButtonsTaskId(task._id);
-                        }
-                      }}
-                      style={{
-                        cursor: 'pointer',
-                        height: '50px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: '10px',
-                        fontWeight: isImportant ? 'bold' : 'normal',
-                      }}
-                    >
-                      <div style={{ flex: 1 }}>
-                        <div style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
-                          {task.title}
-                          {task.quantity && (
-                            <span style={{ marginLeft: '6px' }}>(x{task.quantity})</span>
-                          )}
-                        </div>
-                      </div>
+                  return (
+                    <React.Fragment key={date}>
+                      <li
+                        className="date-separator"
+                        ref={isLastGroup ? lastTaskRef : null}
+                      >
+                        --------- {date} ---------
+                      </li>
 
-                      <div className={`task-item-btn ${activeButtonsTaskId === task._id ? 'visible' : ''}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}>
-                        <button onClick={(e) => { e.stopPropagation(); toggleComplete(task); }}>
-                          {task.completed ? <i className="fa-solid fa-rotate-left"></i> : <i className="fa-solid fa-square-check"></i>}
-                        </button>
-                        <button onClick={(e) => { e.stopPropagation(); setEditingTask(task); }}>
-                          <i className="fa-solid fa-pen-to-square"></i>
-                        </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleDelete(task._id); }}>
-                          <i className="fa-solid fa-rectangle-xmark"></i>
-                        </button>
-                      </div>
-                    </div>
+                      {tasksForDate.map((task) => {
+                        const showDueDate = formatDate(task.dueDate);
+                        const dueSoon = isDueSoon(task.dueDate);
+                        const isImportant = task.isPriority;
+                        const classes = ['task-item'];
+                        if (dueSoon) classes.push('due-soon');
+                        if (isImportant) classes.push('important');
+                        const titleClass = ['task-title'];
+                        if (dueSoon) titleClass.push('soon');
+                        if (isImportant) titleClass.push('titleI');
 
-                    {expandedId === task._id && (
-                      <div className="task-body" style={{ padding: '8px', fontSize: '13px' }}>
-                        {task.description && <p>{task.description}</p>}
-                        {showDueDate && <p>До: {showDueDate}</p>}
-                      </div>
-                    )}
-                  </li>
+                        return (
+                          <li
+                            key={task._id}
+                            onClick={() => toggleExpand(task._id)}
+                            className={classes.join(' ')}
+                            style={{
+                              height: expandedId === task._id ? '120px' : '50px',
+                              overflow: 'hidden',
+                              transition: 'height 0.3s ease',
+                            }}
+                          >
+                            <div
+                              className={titleClass.join(' ')}
+                              onClick={() => {
+                                if (activeButtonsTaskId === task._id) {
+                                  setActiveButtonsTaskId(null);
+                                } else {
+                                  setActiveButtonsTaskId(task._id);
+                                }
+                              }}
+                              style={{
+                                cursor: 'pointer',
+                                height: '50px',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                padding: '10px',
+                                fontWeight: isImportant ? 'bold' : 'normal',
+                              }}
+                            >
+                              <div style={{ flex: 1 }}>
+                                <div style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                                  {task.title}
+                                  {task.quantity && (
+                                    <span style={{ marginLeft: '6px' }}>(x{task.quantity})</span>
+                                  )}
+                                </div>
+                              </div>
 
-                );
-              })}
+                              <div
+                                className={`task-item-btn ${activeButtonsTaskId === task._id ? 'visible' : ''}`}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <button onClick={(e) => { e.stopPropagation(); toggleComplete(task); }}>
+                                  {task.completed ? (
+                                    <i className="fa-solid fa-rotate-left"></i>
+                                  ) : (
+                                    <i className="fa-solid fa-square-check"></i>
+                                  )}
+                                </button>
+                                <button onClick={(e) => { e.stopPropagation(); setEditingTask(task); }}>
+                                  <i className="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button onClick={(e) => { e.stopPropagation(); handleDelete(task._id); }}>
+                                  <i className="fa-solid fa-rectangle-xmark"></i>
+                                </button>
+                              </div>
+                            </div>
+
+                            {expandedId === task._id && (
+                              <div className="task-body" style={{ padding: '8px', fontSize: '13px' }}>
+                                {task.description && <p>{task.description}</p>}
+                                {showDueDate && <p>До: {showDueDate}</p>}
+                              </div>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </React.Fragment>
+                  );
+                })}
             </ul>
+
+
           </div>
         </main>
       </div>
