@@ -175,7 +175,9 @@ function App() {
                         className="date-separator"
                         ref={isLastGroup ? lastTaskRef : null}
                       >
-                        --------- {date} ---------
+                        <span className="date-group">
+                          {date}
+                        </span>
                       </li>
 
                       {tasksForDate.map((task) => {
@@ -200,6 +202,7 @@ function App() {
                               transition: 'height 0.3s ease',
                             }}
                           >
+
                             <div
                               className={titleClass.join(' ')}
                               onClick={() => {
@@ -210,15 +213,20 @@ function App() {
                                 }
                               }}
                               style={{
-                                cursor: 'pointer',
-                                height: '50px',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                padding: '10px',
                                 fontWeight: isImportant ? 'bold' : 'normal',
                               }}
                             >
+                              {task.isPriority &&
+                                <div className="title-icon"
+                                >
+                                  <i className="fa-solid fa-fire" style={{ color: 'var(--red-1)' }}></i>
+                                </div>
+                              }
+                              {showDueDate &&
+                                <div className="title-icon">
+                                  <i className="fa-solid fa-clock" style={{ color: 'var(--link-hover)' }}></i>
+                                </div>
+                              }
                               <div style={{ flex: 1 }}>
                                 <div style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
                                   {task.title}
@@ -247,13 +255,16 @@ function App() {
                                 </button>
                               </div>
                             </div>
-
-                            {expandedId === task._id && (
-                              <div className="task-body" style={{ padding: '8px', fontSize: '13px' }}>
-                                {task.description && <p>{task.description}</p>}
-                                {showDueDate && <p>До: {showDueDate}</p>}
-                              </div>
-                            )}
+                            {
+                              expandedId === task._id && (
+                                <div className="task-body">
+                                  {task.description && <p>{task.description}</p>}
+                                  <div className="task-icon">
+                                    {showDueDate && <i className="fa-solid fa-clock"> {showDueDate}</i>}
+                                  </div>
+                                </div>
+                              )
+                            }
                           </li>
                         );
                       })}
@@ -264,8 +275,8 @@ function App() {
 
 
           </div>
-        </main>
-      </div>
+        </main >
+      </div >
     </>
   )
 }

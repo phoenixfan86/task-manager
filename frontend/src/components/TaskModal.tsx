@@ -22,8 +22,8 @@ const TaskModal: React.FC<Props> = ({
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await API.get<User[]>('/users'); // або інший твій ендпоінт
-        setAllUsers(res.data.filter(u => u._id !== user._id)); // виключаємо себе
+        const res = await API.get<User[]>('/users');
+        setAllUsers(res.data.filter(u => u._id !== user._id));
       } catch (err) {
         console.error('Помилка при завантаженні користувачів:', err);
       }

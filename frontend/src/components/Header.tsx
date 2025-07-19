@@ -61,10 +61,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenModal, totalCount, activeCount, }
     <header>
       <div className="logo-wrapper">
         <i className="fa-solid fa-clipboard-list fa-xl"></i>
-        <span className="hello-user">
-          <span>Привіт </span>
-          <strong>{user.name}</strong>
-        </span>
+
         <a href="#">
           <div className="logo">
             <span>what to</span>
@@ -72,10 +69,16 @@ const Header: React.FC<HeaderProps> = ({ onOpenModal, totalCount, activeCount, }
           </div>
         </a>
       </div>
-      <button
-        onClick={onOpenModal}
-        className="new-task-btn"
-      >Нова покупка</button>
+      <div className="header-btn">
+        <span className="hello-user">
+          <span>Привіт </span>
+          <strong>{user.name}</strong>
+        </span>
+        <button
+          onClick={onOpenModal}
+          className="new-task-btn"
+        >Нова покупка</button>
+      </div>
       <div className="count-wrapper">
         <h5 className="count-item">Усього покупок:<span>{totalCount}</span> </h5>
         <h5 className="count-item">треба купити:<span>{activeCount}</span></h5>
