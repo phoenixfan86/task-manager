@@ -19,6 +19,7 @@ function App() {
   const [activeButtonsTaskId, setActiveButtonsTaskId] = useState<string | null>(null);
 
 
+
   const toggleExpand = (id: string) => {
     setExpandedId(prev => (prev === id ? null : id));
   };
@@ -26,6 +27,21 @@ function App() {
 
   const totalCount = tasks.length;
   const activeCount = tasks.filter((task) => !task.completed).length;
+
+  useEffect(() => {
+    const pingServer = async () => {
+      try {
+        await fetch('https://your-backend-url.onrender.com/ping'); // створіть такий endpoint
+      } catch (err) {
+        console.error('Ping failed:', err);
+      }
+    };
+
+    pingServer(); // одразу при старті
+    const interval = setInterval(pingServer, 14 * 60 * 1000); // кожні 14 хв
+
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchTasks = async (retry = 0) => {
     try {
@@ -163,7 +179,7 @@ function App() {
             </div>
           </div>
           <div className="task-wrapper">
-            <ul className="tasks">
+            <ul className="tasks" >
               {Object.entries(groupTasksByDate(filteredTasks))
                 .sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime())
                 .map(([date, tasksForDate], index, array) => {
@@ -187,6 +203,7 @@ function App() {
                         const classes = ['task-item'];
                         if (dueSoon) classes.push('due-soon');
                         if (isImportant) classes.push('important');
+
                         const titleClass = ['task-title'];
                         if (dueSoon) titleClass.push('soon');
                         if (isImportant) titleClass.push('titleI');
@@ -197,6 +214,7 @@ function App() {
                             onClick={() => toggleExpand(task._id)}
                             className={classes.join(' ')}
                             style={{
+
                               height: expandedId === task._id ? '120px' : '50px',
                               overflow: 'hidden',
                               transition: 'height 0.3s ease',
@@ -272,8 +290,6 @@ function App() {
                   );
                 })}
             </ul>
-
-
           </div>
         </main >
       </div >

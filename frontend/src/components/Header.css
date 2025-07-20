@@ -73,6 +73,54 @@ header button {
 		z-index: 100;
 	}
 
+	.login-container {
+		position: sticky;
+		top: 0;
+		display: flex;
+		gap: 5px;
+		flex-direction: column;
+		padding: 8px 10px;
+		background-color: var(--bg-2);
+		filter: drop-shadow(0 1px 5px var(--color-3));
+		z-index: 500;
+	}
+
+	.login-container h2 {
+		text-align: center;
+		filter: drop-shadow(0 1px 5px var(--color-3));
+	}
+
+	.login-form {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.login-form button {
+		filter: drop-shadow(0 1px 5px var(--color-3));
+	}
+
+	.login-input-group {
+		width: 100%;
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.login-input-group input {
+		width: 150px;
+		padding: 5px 10px;
+		border: 1px solid var(--color-3);
+		border-radius: 8px;
+		background-color: inherit;
+		outline: none;
+	}
+
+	.login-input-group input:focus {
+		border-color: var(--link-hover);
+	}
+
 	.logo-wrapper {
 		gap: 0px;
 		flex-direction: column;

@@ -39,19 +39,23 @@ const Header: React.FC<HeaderProps> = ({ onOpenModal, totalCount, activeCount, }
     return (
       <div className="login-container">
         <h2>Вхід</h2>
-        <input
-          type="text"
-          placeholder="Ім’я"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button onClick={handleLogin}>Увійти</button>
+        <div className="login-form">
+          <div className="login-input-group">
+            <input
+              type="text"
+              placeholder="Введіть Ім’я"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              type="email"
+              placeholder="Введіть Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <button onClick={handleLogin}>Увійти</button>
+        </div>
       </div>
     );
   }

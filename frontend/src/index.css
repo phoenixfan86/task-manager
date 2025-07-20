@@ -130,6 +130,10 @@ button:hover {
 	border-radius: 15px;
 }
 
+.none {
+	display: none;
+}
+
 .tasks {
 	display: flex;
 	gap: 5px;

@@ -25,4 +25,9 @@ app.use(express.json());
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
+
+
 export default app;
