@@ -31,14 +31,14 @@ function App() {
   useEffect(() => {
     const pingServer = async () => {
       try {
-        await fetch('https://your-backend-url.onrender.com/ping'); // створіть такий endpoint
+        await fetch('https://task-manager-6r7o.onrender.com/ping');
       } catch (err) {
         console.error('Ping failed:', err);
       }
     };
 
-    pingServer(); // одразу при старті
-    const interval = setInterval(pingServer, 14 * 60 * 1000); // кожні 14 хв
+    pingServer();
+    const interval = setInterval(pingServer, 14 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, []);
