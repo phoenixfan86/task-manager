@@ -2,7 +2,7 @@ header {
 	min-height: 60px;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: space-around;
 	background-color: var(--bg-2);
 	filter: drop-shadow(0 1px 5px var(--color-3));
 }
@@ -41,6 +41,8 @@ header {
 
 .header-btn {
 	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 header button {
@@ -152,11 +154,6 @@ header button {
 
 	.logo h1 {
 		margin-left: 10px;
-	}
-
-	.header-btn {
-		flex-direction: column;
-		align-items: center;
 	}
 
 	.new-task-btn {
