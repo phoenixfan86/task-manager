@@ -6,6 +6,7 @@ import userRoutes from './routes/users'
 const app = express();
 
 const allowedOrigins = [
+  'http://localhost:8081'
   'http://localhost:5173',
   'https://task-manager-v10.vercel.app'
 ];
