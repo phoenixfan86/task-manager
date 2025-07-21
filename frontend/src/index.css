@@ -159,6 +159,7 @@ button:hover {
 .task-title {
 	position: relative;
 	width: 100%;
+	height: 100px;
 	display: flex;
 	gap: 5px;
 	align-items: center;
@@ -198,7 +199,6 @@ button:hover {
 
 .task-item-btn {
 	position: absolute;
-	top: 0;
 	right: 8px;
 	display: flex;
 	gap: 4px;
