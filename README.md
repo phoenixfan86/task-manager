@@ -1,4 +1,5 @@
-![Task manager preview](./task-manager-preview.png)
+![Task manager preview #1](./what_to_buy.png)
+![Task manager preview #2](./task-manager-preview.png)
 
 # Task Manager App – Тестове завдання
 
